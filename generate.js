@@ -35,11 +35,13 @@ const formatDate = (iso) =>
     weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
   });
 
-function takeaways(body) {
-  const section = body.match(/^###\s+Takeaways\s*$([\s\S]*?)(?=^#{1,3}\s|(?![\s\S]))/m);
-  if (!section) return [];
-  return [...section[1].matchAll(/^\s*[-*]\s+(.+)$/gm)].map((m) => m[1].trim());
+function section(body, name) {
+  const match = body.match(new RegExp(`^###\\s+${name}\\s*$([\\s\\S]*?)(?=^#{1,3}\\s|(?![\\s\\S]))`, "m"));
+  return match ? match[1].trim() : "";
 }
+
+const takeaways = (body) =>
+  [...section(body, "Takeaways").matchAll(/^\s*[-*]\s+(.+)$/gm)].map((m) => m[1].trim());
 
 async function loadLessons() {
   const files = (await fs.readdir(LESSONS_DIR)).filter((f) => f.endsWith(".md")).sort();
@@ -52,6 +54,7 @@ async function loadLessons() {
         content,
         date: isoDate(data.date ?? path.basename(file, ".md")),
         takeaways: takeaways(content),
+        practice: section(content, "Put It in Practice"),
       };
     }),
   );
@@ -76,6 +79,7 @@ function recapHtml(last, next) {
         <p><strong>Topic:</strong> ${escapeHtml(last.data.title)}</p>
         ${last.data.memoryVerse ? `<p><strong>Memory Verse:</strong> “${escapeHtml(last.data.memoryVerse)}” — ${escapeHtml(last.data.memoryVerseRef)}</p>` : ""}
         ${last.takeaways.length ? `<p><strong>Takeaways:</strong></p><ul>${last.takeaways.map((t) => `<li>${marked.parseInline(t)}</li>`).join("")}</ul>` : ""}
+        ${last.practice ? `<p><strong>Put It in Practice:</strong> ${marked.parseInline(last.practice)}</p>` : ""}
       </div>`
     : "";
   const nextHtml = next
@@ -88,7 +92,9 @@ function recapHtml(last, next) {
 }
 
 function lessonHtml(lesson, last, next) {
-  const body = recapHtml(last, next) + marked.parse(lesson.content);
+  // Drop the Theme Specific section when it has no content.
+  const content = lesson.content.replace(/^###\s+Theme Specific\s*$\s*(?=^###\s|(?![\s\S]))/m, "");
+  const body = recapHtml(last, next) + marked.parse(content);
   return `<!doctype html>
 <html><head><meta charset="utf-8"><title>${escapeHtml(lesson.data.title)}</title>
 <style>

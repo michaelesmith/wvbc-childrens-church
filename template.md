@@ -14,6 +14,10 @@ draft: true
 
 **Memory Verse:** {memory verse}
 
+### Theme Specific
+
+Theme specific
+
 ### Scripture — {scripture}
 
 {scripture}
@@ -41,3 +45,7 @@ draft: true
 ### Takeaways
 
 - {takeaways}
+
+### Put It in Practice
+
+{put it in practice}

@@ -109,8 +109,10 @@ const BOOKS = {
 
 // "Matthew 16:13-20" -> [Matthew 16:13-20](https://www.bible.com/bible/111/MAT.16.13-20.NIV)
 // bible.com can't show a range across chapters, so those link to the starting chapter.
+// Verse lists ("Isaiah 9:2, 6-7") link to the span from the first verse to the last.
 function bibleLink(ref) {
-  const m = ref.trim().replace(/\s*[–—-]\s*/g, "-").match(/^(.+?)\s+(\d+)(?::(\d+)(?:-(\d+)(?::(\d+))?)?)?$/);
+  const normalized = ref.trim().replace(/\s*[–—-]\s*/g, "-").replace(/:(\d+)(?:,\s*\d+(?:-\d+)?)*,\s*(?:\d+-)?(\d+)$/, ":$1-$2");
+  const m = normalized.match(/^(.+?)\s+(\d+)(?::(\d+)(?:-(\d+)(?::(\d+))?)?)?$/);
   const book = m && BOOKS[m[1].toLowerCase()];
   if (!book) return cell(ref);
   const [, , chapter, verse, end, endVerse] = m;

@@ -32,6 +32,9 @@ Lesson plans for children's church.
 | [2026-11-08](lessons/2026-11-08.md) | Manna in the Wilderness — "Thankful, Not Grumbling" | [Exodus 16:1-18](https://www.bible.com/bible/111/EXO.16.1-18.NIV) | Michael & Amy | Ready |
 | [2026-11-15](lessons/2026-11-15.md) | Paul and Silas in Prison — "Thankful in Hard Times" | [Acts 16:22-34](https://www.bible.com/bible/111/ACT.16.22-34.NIV) | Kase & Amayalei | Ready |
 | [2026-11-22](lessons/2026-11-22.md) | The Cheerful Giver — "Thankful Hearts Share" | [2 Corinthians 9:6-15](https://www.bible.com/bible/111/2CO.9.6-15.NIV) | Kase & Amayalei | Ready |
+| [2026-12-06](lessons/2026-12-06.md) | The Promised King — "God Keeps His Promises" | [Isaiah 9:2, 6-7](https://www.bible.com/bible/111/ISA.9.2-7.NIV) |  | Draft |
+| [2026-12-13](lessons/2026-12-13.md) | Good News of Great Joy — "Go and Tell" | [Luke 2:8-20](https://www.bible.com/bible/111/LUK.2.8-20.NIV) |  | Draft |
+| [2026-12-20](lessons/2026-12-20.md) | God So Loved the World — "Jesus Is God's Gift of Love" | [Luke 2:1-7](https://www.bible.com/bible/111/LUK.2.1-7.NIV); [John 3:16](https://www.bible.com/bible/111/JHN.3.16.NIV) |  | Draft |
 
 <!-- schedule:end -->
 

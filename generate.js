@@ -32,6 +32,7 @@ const MAX_PAGES = 2;
 const MIN_FONT_PT = 7;
 const MAX_FONT_PT = 13;
 const FONT_STEP_PT = 0.25;
+const WARN_FONT_PT = 10; // smaller than this is hard to read when printed
 
 const escapeHtml = (s) =>
   String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -295,8 +296,12 @@ async function main() {
         await page.setContent(lessonHtml(lesson, lessons[i - 1], lessons[i + 1]), { waitUntil: "load" });
         const { pdf, fontPt, overflow } = await fitToPages(page, lesson);
         await fs.writeFile(outFile(lesson), pdf);
-        const note = overflow ? ` — WARNING: still ${overflow} pages at minimum size` : "";
-        console.log(`${path.relative(ROOT, outFile(lesson))} (${fontPt}pt)${note}`);
+        console.log(`${path.relative(ROOT, outFile(lesson))} (${fontPt}pt)`);
+        if (overflow) {
+          warnings.push(`${lesson.file} is still ${overflow} pages at the minimum ${MIN_FONT_PT}pt — trim the lesson`);
+        } else if (fontPt < WARN_FONT_PT) {
+          warnings.push(`${lesson.file} needed ${fontPt}pt to fit on ${MAX_PAGES} pages (under ${WARN_FONT_PT}pt) — consider trimming the lesson`);
+        }
         if (!String(lesson.data.leaders ?? "").trim()) {
           warnings.push(`${lesson.file} has no leaders — the page header will show only the date`);
         }

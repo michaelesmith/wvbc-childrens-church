@@ -52,9 +52,10 @@ after the other PDFs are built. Existing PDFs are skipped unless `--regen` is
 passed. Every run also refreshes the Schedule table above from `plans.csv` and
 each lesson's draft status.
 
-Each lesson is scaled to fill two Letter pages, with the date and leaders in the
-page header and a small last week / next week recap above the title (taken from
-the previous and next lessons in `lessons/`).
+Each lesson is scaled to fill two Letter pages (with a warning if that takes a
+font under 10pt), with the date and leaders in the page header and a small
+last week / next week recap above the title (taken from the previous and next
+lessons in `lessons/`).
 
 ## Scripture
 

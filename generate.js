@@ -3,6 +3,10 @@
 //
 //   node generate.js                      # all lessons
 //   node generate.js 2026-10-18 lessons/2026-10-11.md   # only these
+//   node generate.js --regen              # overwrite existing PDFs (or --regenerate)
+//
+// Draft lessons (draft: true) are never generated and are reported as errors.
+// Existing PDFs are skipped unless --regen is passed.
 //
 // Each lesson is scaled to fill exactly two Letter pages, with the date and
 // leaders in the page header and a small last week / next week recap.
@@ -63,13 +67,16 @@ async function loadLessons() {
 
 // Accepts dates ("2026-10-18"), file names, or paths.
 function selectLessons(lessons, args) {
-  if (args.length === 0) return lessons;
-  return args.map((arg) => {
+  if (args.length === 0) return { selected: lessons, errors: [] };
+  const selected = [];
+  const errors = [];
+  for (const arg of args) {
     const key = path.basename(arg, ".md");
     const lesson = lessons.find((l) => path.basename(l.file, ".md") === key || l.date === key);
-    if (!lesson) throw new Error(`No lesson found for "${arg}"`);
-    return lesson;
-  });
+    if (lesson) selected.push(lesson);
+    else errors.push(`No lesson found for "${arg}"`);
+  }
+  return { selected, errors };
 }
 
 function recapHtml(last, next) {
@@ -168,24 +175,56 @@ async function fitToPages(page, lesson) {
 }
 
 async function main() {
+  const args = process.argv.slice(2);
+  const regen = args.some((a) => a === "--regen" || a === "--regenerate");
   const lessons = await loadLessons();
-  const selected = selectLessons(lessons, process.argv.slice(2));
+  const { selected, errors } = selectLessons(lessons, args.filter((a) => !a.startsWith("--")));
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
 
-  const browser = await puppeteer.launch();
-  try {
-    const page = await browser.newPage();
-    for (const lesson of selected) {
-      const i = lessons.indexOf(lesson);
-      await page.setContent(lessonHtml(lesson, lessons[i - 1], lessons[i + 1]), { waitUntil: "load" });
-      const { pdf, fontPt, overflow } = await fitToPages(page, lesson);
-      const outFile = path.join(OUTPUT_DIR, `${path.basename(lesson.file, ".md")}.pdf`);
-      await fs.writeFile(outFile, pdf);
-      const note = overflow ? ` — WARNING: still ${overflow} pages at minimum size` : "";
-      console.log(`${path.relative(ROOT, outFile)} (${fontPt}pt)${note}`);
+  const outFile = (lesson) => path.join(OUTPUT_DIR, `${path.basename(lesson.file, ".md")}.pdf`);
+  const exists = (file) => fs.access(file).then(() => true, () => false);
+
+  const todo = [];
+  const warnings = [];
+  for (const lesson of selected) {
+    if (lesson.data.draft) {
+      errors.push(`${lesson.file} is still a draft — set draft: false to generate it`);
+    } else if (!regen && (await exists(outFile(lesson)))) {
+      console.log(`${path.relative(ROOT, outFile(lesson))} already exists — skipped (use --regen to overwrite)`);
+    } else {
+      todo.push(lesson);
     }
-  } finally {
-    await browser.close();
+  }
+
+  if (todo.length) {
+    const browser = await puppeteer.launch();
+    try {
+      const page = await browser.newPage();
+      for (const lesson of todo) {
+        const i = lessons.indexOf(lesson);
+        await page.setContent(lessonHtml(lesson, lessons[i - 1], lessons[i + 1]), { waitUntil: "load" });
+        const { pdf, fontPt, overflow } = await fitToPages(page, lesson);
+        await fs.writeFile(outFile(lesson), pdf);
+        const note = overflow ? ` — WARNING: still ${overflow} pages at minimum size` : "";
+        console.log(`${path.relative(ROOT, outFile(lesson))} (${fontPt}pt)${note}`);
+        if (!String(lesson.data.leaders ?? "").trim()) {
+          warnings.push(`${lesson.file} has no leaders — the page header will show only the date`);
+        }
+      }
+    } finally {
+      await browser.close();
+    }
+  }
+
+  if (warnings.length) {
+    console.warn(`\n${warnings.length} warning(s):`);
+    for (const warning of warnings) console.warn(`  WARNING: ${warning}`);
+  }
+
+  if (errors.length) {
+    console.error(`\n${errors.length} error(s):`);
+    for (const err of errors) console.error(`  ERROR: ${err}`);
+    process.exitCode = 1;
   }
 }
 

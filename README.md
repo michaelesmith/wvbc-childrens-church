@@ -52,3 +52,12 @@ each lesson's draft status.
 Each lesson is scaled to fill two Letter pages, with the date and leaders in the
 page header and a small last week / next week recap above the title (taken from
 the previous and next lessons in `lessons/`).
+
+## Scripture
+
+Scripture references in the schedule link to the passage in the
+[New International Version on Bible.com](https://www.bible.com/versions/111-niv-new-international-version).
+
+Scripture quotations taken from The Holy Bible, New International Version® NIV®
+Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™ Used by permission. All
+rights reserved worldwide.

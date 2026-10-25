@@ -29,8 +29,8 @@ Lesson plans for children's church.
 | [2026-10-11](lessons/2026-10-11.md) | Jesus Walks on Water — "Trusting Jesus" | [Matthew 14:22-33](https://www.bible.com/bible/111/MAT.14.22-33.NIV) | Kase & Amayalei | Ready |
 | [2026-10-18](lessons/2026-10-18.md) | Zacchaeus Meets Jesus — "Jesus Changes Hearts" | [Luke 19:1-10](https://www.bible.com/bible/111/LUK.19.1-10.NIV) | Michael & Amy | Ready |
 | [2026-11-01](lessons/2026-11-01.md) | Give Thanks to the Lord — "Thankful for Who God Is" | [Psalm 100](https://www.bible.com/bible/111/PSA.100.NIV) | Michael & Amy | Ready |
-| [2026-11-08](lessons/2026-11-08.md) | Manna in the Wilderness — "Thankful, Not Grumbling" | [Exodus 16:1-18](https://www.bible.com/bible/111/EXO.16.1-18.NIV) | Michael & Amy | Ready |
-| [2026-11-15](lessons/2026-11-15.md) | Paul and Silas in Prison — "Thankful in Hard Times" | [Acts 16:22-34](https://www.bible.com/bible/111/ACT.16.22-34.NIV) | Kase & Amayalei | Ready |
+| [2026-11-08](lessons/2026-11-08.md) | Manna in the Wilderness — "Thankful, Not Grumbling" | [Exodus 16:1-18](https://www.bible.com/bible/111/EXO.16.1-18.NIV) | Kase & Amayalei | Ready |
+| [2026-11-15](lessons/2026-11-15.md) | Paul and Silas in Prison — "Thankful in Hard Times" | [Acts 16:22-34](https://www.bible.com/bible/111/ACT.16.22-34.NIV) | Michael & Amy | Ready |
 | [2026-11-22](lessons/2026-11-22.md) | The Cheerful Giver — "Thankful Hearts Share" | [2 Corinthians 9:6-15](https://www.bible.com/bible/111/2CO.9.6-15.NIV) | Kase & Amayalei | Ready |
 | [2026-12-06](lessons/2026-12-06.md) | The Promised King — "God Keeps His Promises" | [Isaiah 9:2, 6-7](https://www.bible.com/bible/111/ISA.9.2-7.NIV) |  | Draft |
 | [2026-12-13](lessons/2026-12-13.md) | Good News of Great Joy — "Go and Tell" | [Luke 2:8-20](https://www.bible.com/bible/111/LUK.2.8-20.NIV) |  | Draft |
